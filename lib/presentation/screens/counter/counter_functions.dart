@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hello_world_app/providers/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class CounterFunctionsScreen extends StatefulWidget {
   const CounterFunctionsScreen({super.key});
@@ -12,17 +14,26 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Obtenemos acceso al provider (listen: true por defecto para redibujar iconos si es necesario)
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Counter Functions'),
         actions: [
           IconButton(
             onPressed: () {
-              setState(() {
-                clickCounter = 0;
-              });
+              // Llamamos a la función para cambiar el tema
+              themeProvider.toggleTheme();
             },
-            icon: const Icon(Icons.refresh_rounded),
+            //Cambiamos el icono según el estado
+            icon: Icon(
+              themeProvider.themeMode == ThemeMode.system
+                  ? Icons.brightness_auto // Icono de "Automático/Sistema"
+                  : themeProvider.themeMode == ThemeMode.light
+                  ? Icons.light_mode_outlined // Icono de Sol
+                  : Icons.dark_mode_outlined, // Icono de Luna
+            ),
           ),
         ],
       ),
