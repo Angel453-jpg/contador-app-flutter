@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CounterFunctionsScreen extends StatefulWidget {
+  static const String name = 'counter_screen';
+
   const CounterFunctionsScreen({super.key});
 
   @override
@@ -13,19 +15,6 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Counter Functions'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                clickCounter = 0;
-              });
-            },
-            icon: const Icon(Icons.refresh_rounded),
-          ),
-        ],
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -48,6 +37,7 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           CustomButton(
+            heroTag: 'increment_fab',
             icon: Icons.plus_one_outlined,
             onPressed: () {
               setState(() {
@@ -59,6 +49,7 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
           const SizedBox(height: 15),
 
           CustomButton(
+            heroTag: 'decrement_fab',
             icon: Icons.exposure_minus_1_outlined,
             onPressed: () {
               setState(() {
@@ -71,6 +62,7 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
           const SizedBox(height: 15),
 
           CustomButton(
+            heroTag: 'reset_fab',
             icon: Icons.refresh_outlined,
             onPressed: () {
               setState(() {
@@ -87,12 +79,14 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
 class CustomButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback? onPressed;
+  final String heroTag;
 
-  const CustomButton({super.key, required this.icon, required this.onPressed});
+  const CustomButton({super.key, required this.icon, required this.onPressed, required this.heroTag});
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      heroTag: heroTag,
       enableFeedback: true,
       elevation: 5,
       onPressed: onPressed,
