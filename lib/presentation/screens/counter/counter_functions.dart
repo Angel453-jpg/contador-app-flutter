@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hello_world_app/providers/theme_provider.dart';
-import 'package:provider/provider.dart';
 
 class CounterFunctionsScreen extends StatefulWidget {
   static const String name = 'counter_screen';
@@ -16,8 +14,6 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Obtenemos acceso al provider (listen: true por defecto para redibujar iconos si es necesario)
-    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
       body: Center(
