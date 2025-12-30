@@ -3,6 +3,8 @@ import 'package:hello_world_app/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class CounterFunctionsScreen extends StatefulWidget {
+  static const String name = 'counter_screen';
+
   const CounterFunctionsScreen({super.key});
 
   @override
@@ -18,25 +20,6 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Counter Functions'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              // Llamamos a la función para cambiar el tema
-              themeProvider.toggleTheme();
-            },
-            //Cambiamos el icono según el estado
-            icon: Icon(
-              themeProvider.themeMode == ThemeMode.system
-                  ? Icons.brightness_auto // Icono de "Automático/Sistema"
-                  : themeProvider.themeMode == ThemeMode.light
-                  ? Icons.light_mode_outlined // Icono de Sol
-                  : Icons.dark_mode_outlined, // Icono de Luna
-            ),
-          ),
-        ],
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -59,6 +42,7 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           CustomButton(
+            heroTag: 'increment_fab',
             icon: Icons.plus_one_outlined,
             onPressed: () {
               setState(() {
@@ -70,6 +54,7 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
           const SizedBox(height: 15),
 
           CustomButton(
+            heroTag: 'decrement_fab',
             icon: Icons.exposure_minus_1_outlined,
             onPressed: () {
               setState(() {
@@ -82,6 +67,7 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
           const SizedBox(height: 15),
 
           CustomButton(
+            heroTag: 'reset_fab',
             icon: Icons.refresh_outlined,
             onPressed: () {
               setState(() {
@@ -98,12 +84,14 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
 class CustomButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback? onPressed;
+  final String heroTag;
 
-  const CustomButton({super.key, required this.icon, required this.onPressed});
+  const CustomButton({super.key, required this.icon, required this.onPressed, required this.heroTag});
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      heroTag: heroTag,
       enableFeedback: true,
       elevation: 5,
       onPressed: onPressed,

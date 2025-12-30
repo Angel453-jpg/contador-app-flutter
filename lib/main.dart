@@ -1,35 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:hello_world_app/presentation/screens/counter/counter_functions.dart';
-import 'package:hello_world_app/providers/theme_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hello_world_app/config/router/app_router.dart';
+import 'package:hello_world_app/presentation/providers/theme_provider.dart';
+
+import 'config/theme/app_theme.dart';
 
 void main() {
-  runApp(
-    // Inyectamos el provider en la cima del árbol de widgets
-    ChangeNotifierProvider(
-      create: (_) => ThemeProvider(),
-      child: const MyApp(),
-    ),
-  );
+  runApp(ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Escuchamos los cambios del tema
-    final themeProvider = Provider.of<ThemeProvider>(context);
+  Widget build(BuildContext context, ref) {
 
-    return MaterialApp(
+    final AppTheme appTheme = ref.watch(themeNotifierProvider);
+
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      // 1. Asignamos el tema claro
-      theme: themeProvider.lightTheme,
-      // 2. Asignamos el tema oscuro
-      darkTheme: themeProvider.darkTheme,
-      // 3. Le decimos a Flutter cuál usar (Light, Dark o System)
-      themeMode: themeProvider.themeMode,
-      home: CounterFunctionsScreen(),
+      theme: appTheme.getTheme(Brightness.light),
+      darkTheme: appTheme.getTheme(Brightness.dark),
+      themeMode: appTheme.themeMode,
+      routerConfig: appRouter,
     );
   }
 }
